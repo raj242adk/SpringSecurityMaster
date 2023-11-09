@@ -16,9 +16,9 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-      http
+      http.csrf((csrf)->csrf.disable())
                 .authorizeHttpRequests(authorize-> authorize
-                        .requestMatchers("/contact","/notices").permitAll()
+                        .requestMatchers("/contact","/notices","/register").permitAll()
                         .requestMatchers("/myAccount","/myBalance","/myCards","/myLoans").authenticated())
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
@@ -45,12 +45,14 @@ public class SecurityConfig {
     }
 */
 
-    @Bean
+/*    @Bean
     public InMemoryUserDetailsManager userDetailsService(){
         UserDetails admin = User.withUsername("admin").password("12345").authorities("admin").build();
         UserDetails user = User.withUsername("user").password("12345").authorities("read").build();
         return new InMemoryUserDetailsManager(admin,user);
     }
+    
+ */
     @Bean
     public PasswordEncoder passwordEncoder(){
         return NoOpPasswordEncoder.getInstance();
